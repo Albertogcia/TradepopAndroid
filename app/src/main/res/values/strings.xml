@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">Tradepop</string>
+    <string name="tab_bar_products">Products</string>
+    <string name="tab_bar_add">Add</string>
+    <string name="tab_bar_profile">Profile</string>
+</resources>

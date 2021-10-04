@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_products">
+
+    <fragment
+        android:id="@+id/navigation_products"
+        android:name="com.alberto.tradepop.products.ProductsFragment"
+        android:label="@string/tab_bar_products"
+        tools:layout="@layout/fragment_products" />
+
+    <fragment
+        android:id="@+id/navigation_add_product"
+        android:name="com.alberto.tradepop.newProduct.NewProductFragment"
+        android:label="@string/tab_bar_add"
+        tools:layout="@layout/fragment_new_product" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.alberto.tradepop.profile.ProfileFragment"
+        android:label="@string/tab_bar_profile"
+        tools:layout="@layout/fragment_profile" />
+</navigation>
