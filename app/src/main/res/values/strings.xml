@@ -5,4 +5,26 @@
     <string name="tab_bar_products">Products</string>
     <string name="tab_bar_add">Add</string>
     <string name="tab_bar_profile">Profile</string>
+    <string name="generic_error">Error</string>
+    <string name="generic_ok">Ok</string>
+    <string name="generic_loading">Loading...</string>
+    <string name="generic_cancel">Cancel</string>
+    <!-- NoUserFragment -->
+    <string name="no_user_fragment_message">Looks like you haven\'t signed in yet.</string>
+    <string name="no_user_to_login_button_message">Sign in</string>
+    <!-- LoginRegisterActivity -->
+    <string name="login_register_email_label">Email</string>
+    <string name="login_register_username_label">Username</string>
+    <string name="login_register_password_label">Password</string>
+    <string name="login_register_login_title">Log in</string>
+    <string name="login_register_register_title">Sign in</string>
+    <string name="login_register_forgot_password">Forgot password?</string>
+    <string name="loading_register_login_message">Login in...</string>
+    <string name="loading_register_empty_fields_error_message">Fields can\'t be empty</string>
+    <string name="loading_register_register_error_message">The email already exists or is invalid"</string>
+    <string name="loading_register_login_error_message">The email or password is invalid</string>
+    <string name="login_register_forgot_password_message">Write your email to reset your password</string>
+    <string name="login_register_email_invalid">This email doesn\'t exists or is invalid</string>
+    <string name="login_register_recover_password_email_sent">An email has been sent to reset your password</string>
+    <string name="login_register_recover_password_email_sent_title">Reset password</string>
 </resources>

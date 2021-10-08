@@ -5,4 +5,26 @@
     <string name="tab_bar_products">Productos</string>
     <string name="tab_bar_add">Añadir</string>
     <string name="tab_bar_profile">Perfil</string>
+    <string name="generic_error">Error</string>
+    <string name="generic_ok">Ok</string>
+    <string name="generic_loading">Cargando...</string>
+    <string name="generic_cancel">Cancelar</string>
+    <!-- NoUserFragment -->
+    <string name="no_user_fragment_message">Parece que aún no has iniciado sesión.</string>
+    <string name="no_user_to_login_button_message">Iniciar sesión</string>
+    <!-- LoginRegisterActivity -->
+    <string name="login_register_email_label">Email</string>
+    <string name="login_register_username_label">Nombre</string>
+    <string name="login_register_password_label">Contraseña</string>
+    <string name="login_register_login_title">Iniciar sesión</string>
+    <string name="login_register_register_title">Registrarse</string>
+    <string name="login_register_forgot_password">¿Olvidaste la contraseña?</string>
+    <string name="loading_register_login_message">Iniciando sesión...</string>
+    <string name="loading_register_empty_fields_error_message">Los campos no pueden estar vacios</string>
+    <string name="loading_register_register_error_message">El email ya existe o es inválido</string>
+    <string name="loading_register_login_error_message">El email o contraseña es inválido</string>
+    <string name="login_register_forgot_password_message">Escribe tu email para restablecer tu contraseña</string>
+    <string name="login_register_email_invalid">El email no existe o es inválido</string>
+    <string name="login_register_recover_password_email_sent">Se ha enviado un email para restablecer tu contraseña</string>
+    <string name="login_register_recover_password_email_sent_title">Restablecer contraseña</string>
 </resources>

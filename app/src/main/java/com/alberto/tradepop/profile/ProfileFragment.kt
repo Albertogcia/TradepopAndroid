@@ -1,6 +1,7 @@
 package com.alberto.tradepop.profile
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,37 +9,53 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.alberto.tradepop.databinding.ActivityLoginRegisterBinding
 import com.alberto.tradepop.databinding.FragmentProfileBinding
+import com.alberto.tradepop.loginRegister.LoginRegisterViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import org.kodein.di.android.di
+import org.kodein.di.DI
+import org.kodein.di.DIAware
+import org.kodein.di.android.x.di
+import org.kodein.di.direct
+import org.kodein.di.instance
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), DIAware {
 
-    private lateinit var notificationsViewModel: ProfileViewModel
-    private var _binding: FragmentProfileBinding? = null
+    override val di: DI by di()
+    private val viewModel: ProfileViewModel by lazy {
+        ViewModelProvider(
+            this,
+            direct.instance()
+        ).get(ProfileViewModel::class.java)
+    }
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentProfileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notificationsViewModel =
-            ViewModelProvider(this).get(ProfileViewModel::class.java)
-
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+        this.binding = FragmentProfileBinding.inflate(layoutInflater)
+        lifecycleScope.launchWhenStarted {
+            launch {
+                viewModel.state.collect { state ->
+                    if(state.user != null){
+                        viewModel.logOut()
+                    }
+                    else{
+                    }
+                }
+            }
+        }
+        return this.binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkUserStatus()
     }
 }
