@@ -66,6 +66,7 @@ class LoginRegisterActivity : AppCompatActivity(), DIAware {
                         }
                     }
                     if(state.dismissActivity){
+                        loadingDialog?.dismiss()
                         this@LoginRegisterActivity.finish()
                     }
                 }

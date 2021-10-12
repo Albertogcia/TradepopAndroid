@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -42,15 +43,21 @@ class ProfileFragment : Fragment(), DIAware {
         this.binding = FragmentProfileBinding.inflate(layoutInflater)
         lifecycleScope.launchWhenStarted {
             launch {
-                viewModel.state.collect { state ->
+                viewModel.userState.collect { state ->
                     if(state.user != null){
-                        viewModel.logOut()
+                        binding.userNameTextView.text = state.user.username ?: ""
+                        binding.noUserFragment.isVisible = false
+                        binding.mainLayout.isVisible = true
                     }
                     else{
+                        binding.mainLayout.isVisible = false
+                        binding.noUserFragment.isVisible = true
                     }
                 }
             }
         }
+        viewModel.checkUserStatus()
+        binding.logOutButton.setOnClickListener { viewModel.logOut() }
         return this.binding.root
     }
 

@@ -13,29 +13,29 @@ import kotlinx.coroutines.launch
 
 class ProfileViewModel(private val userDataManager: UserDataManager) : ViewModel() {
 
-    private val stateFlow: MutableStateFlow<ProfileState> = MutableStateFlow(
-        ProfileState.empty()
+    private val userStateFlow: MutableStateFlow<ProfileUserState> = MutableStateFlow(
+        ProfileUserState.empty()
     )
-    val state: StateFlow<ProfileState>
-        get() = stateFlow
+    val userState: StateFlow<ProfileUserState>
+        get() = userStateFlow
 
     fun checkUserStatus() {
         viewModelScope.launch {
             val user = userDataManager.getCurrentUser()
-            stateFlow.value = ProfileState(user = user)
+            userStateFlow.value = ProfileUserState(user = user)
         }
     }
 
     fun logOut(){
         viewModelScope.launch {
             userDataManager.logout()
-            stateFlow.value = ProfileState(user = null)
+            userStateFlow.value = ProfileUserState(user = null)
         }
     }
 
-    data class ProfileState(val user: User?) {
+    data class ProfileUserState(val user: User?) {
         companion object {
-            fun empty() = ProfileState(
+            fun empty() = ProfileUserState(
                 user = null
             )
         }
