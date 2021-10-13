@@ -1,10 +1,14 @@
 package com.alberto.tradepop.Extensions
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.alberto.tradepop.R
 
 fun AppCompatActivity.showSimpleMessage(title: String, description: String, context: Context) {
@@ -35,4 +39,17 @@ fun AppCompatActivity.showEditTextDialog(
     }
     builder.setNegativeButton(resources.getString(R.string.generic_cancel), null)
     return builder.show()
+}
+
+fun Fragment.hideKeyboard() {
+    view?.let { activity?.hideKeyboard(it) }
+}
+
+fun Activity.hideKeyboard() {
+    hideKeyboard(currentFocus ?: View(this))
+}
+
+fun Context.hideKeyboard(view: View) {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }

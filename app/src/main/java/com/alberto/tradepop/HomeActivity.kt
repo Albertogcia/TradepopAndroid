@@ -1,17 +1,27 @@
 package com.alberto.tradepop
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.alberto.tradepop.databinding.ActivityHomeBinding
+import com.alberto.tradepop.newProduct.NewProductFragment
+import com.alberto.tradepop.products.ProductsFragment
+import com.alberto.tradepop.profile.ProfileFragment
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
+
+    private val productsFragment = ProductsFragment()
+    private val newProductFragment = NewProductFragment()
+    private val profileFragment = ProfileFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,9 +30,32 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val navView: BottomNavigationView = binding.navView
+        binding.navView.setOnItemSelectedListener { menuItem ->
+            when(menuItem.itemId){
+                R.id.navigation_products -> {
+                    setFragment(productsFragment)
+                }
+                R.id.navigation_add_product -> {
+                    setFragment(newProductFragment)
+                }
+                R.id.navigation_profile -> {
+                    setFragment(profileFragment)
+                }
+            }
+            true
+        }
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_home)
+        navView.selectedItemId = R.id.navigation_products
+    }
 
-        navView.setupWithNavController(navController)
+    fun newProductCreated(){
+        binding.navView.selectedItemId = R.id.navigation_products
+    }
+
+    private fun setFragment(fragment: Fragment){
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.nav_host_fragment_activity_home, fragment)
+            .commit()
     }
 }

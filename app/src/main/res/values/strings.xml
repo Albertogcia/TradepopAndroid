@@ -9,6 +9,12 @@
     <string name="generic_ok">Ok</string>
     <string name="generic_loading">Loading...</string>
     <string name="generic_cancel">Cancel</string>
+    <!-- Category -->
+    <string name="category_1">Vehicle</string>
+    <string name="category_2">Clothing</string>
+    <string name="category_3">Furniture</string>
+    <string name="category_4">Sports</string>
+    <string name="category_5">Electronics</string>
     <!-- NoUserFragment -->
     <string name="no_user_fragment_message">Looks like you haven\'t signed in yet.</string>
     <string name="no_user_to_login_button_message">Sign in</string>
@@ -27,4 +33,13 @@
     <string name="login_register_email_invalid">This email doesn\'t exists or is invalid</string>
     <string name="login_register_recover_password_email_sent">An email has been sent to reset your password</string>
     <string name="login_register_recover_password_email_sent_title">Reset password</string>
+    <!-- NewProductFragment -->
+    <string name="new_product_title_label">Title*</string>
+    <string name="new_product_description_label">Description*</string>
+    <string name="new_product_category_label">Category*</string>
+    <string name="new_product_select_category_label">Select category</string>
+    <string name="new_product_price_label">Price*</string>
+    <string name="new_product_upload_button">Upload</string>
+    <string name="new_product_empty_fields_error_message">Fields can\'t be empty</string>
+    <string name="new_product_upload_product_error_message">An error has ocurred please try again later</string>
 </resources>
