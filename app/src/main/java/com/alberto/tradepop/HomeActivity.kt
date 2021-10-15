@@ -19,9 +19,9 @@ class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
-    private val productsFragment = ProductsFragment()
+    /*private val productsFragment = ProductsFragment()
     private val newProductFragment = NewProductFragment()
-    private val profileFragment = ProfileFragment()
+    private val profileFragment = ProfileFragment()*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,12 +33,15 @@ class HomeActivity : AppCompatActivity() {
         binding.navView.setOnItemSelectedListener { menuItem ->
             when(menuItem.itemId){
                 R.id.navigation_products -> {
+                    val productsFragment = ProductsFragment.newInstance()
                     setFragment(productsFragment)
                 }
                 R.id.navigation_add_product -> {
+                    val newProductFragment = NewProductFragment.newInstance()
                     setFragment(newProductFragment)
                 }
                 R.id.navigation_profile -> {
+                    val profileFragment = ProfileFragment.newInstance()
                     setFragment(profileFragment)
                 }
             }
@@ -56,6 +59,7 @@ class HomeActivity : AppCompatActivity() {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.nav_host_fragment_activity_home, fragment)
+            .addToBackStack(null)
             .commit()
     }
 }

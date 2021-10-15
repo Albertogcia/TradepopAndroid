@@ -42,4 +42,6 @@
     <string name="new_product_upload_button">Upload</string>
     <string name="new_product_empty_fields_error_message">Fields can\'t be empty</string>
     <string name="new_product_upload_product_error_message">An error has ocurred please try again later</string>
+    <!-- ProductsFragment -->
+    <string name="products_error_fetching_products">An error has occurred please try again later</string>
 </resources>

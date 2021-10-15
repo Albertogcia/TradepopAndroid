@@ -200,8 +200,7 @@ class NewProductFragment : Fragment(), DIAware {
         viewModel.checkFields(binding.titleEditText.text.toString(),binding.descriptionEditText.text.toString(),binding.priceEditText.text.toString())
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.checkUserStatus()
+    companion object {
+        fun newInstance(): NewProductFragment = NewProductFragment()
     }
 }

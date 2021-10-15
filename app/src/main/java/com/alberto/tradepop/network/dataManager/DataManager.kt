@@ -1,5 +1,6 @@
 package com.alberto.tradepop.network.dataManager
 
+import com.alberto.tradepop.network.models.Product
 import java.io.File
 
 interface DataManager {
@@ -15,4 +16,6 @@ interface DataManager {
         userUuid: String,
         userName: String
     ): Boolean
+
+    suspend fun getAllProducts(userUuid: String?): List<Product>?
 }

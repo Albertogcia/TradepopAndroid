@@ -42,4 +42,6 @@
     <string name="new_product_upload_button">Subir</string>
     <string name="new_product_empty_fields_error_message">Los campos no pueden estar vacios</string>
     <string name="new_product_upload_product_error_message">Se ha producido un error, por favor inténtalo de nuevo mas tarde</string>
+    <!-- ProductsFragment -->
+    <string name="products_error_fetching_products">An error has occurred please try again later</string>
 </resources>

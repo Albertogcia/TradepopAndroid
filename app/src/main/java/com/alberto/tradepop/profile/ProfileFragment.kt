@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.alberto.tradepop.databinding.ActivityLoginRegisterBinding
 import com.alberto.tradepop.databinding.FragmentProfileBinding
 import com.alberto.tradepop.loginRegister.LoginRegisterViewModel
+import com.alberto.tradepop.newProduct.NewProductFragment
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.android.di
@@ -62,7 +63,11 @@ class ProfileFragment : Fragment(), DIAware {
     }
 
     override fun onResume() {
-        super.onResume()
         viewModel.checkUserStatus()
+        super.onResume()
+    }
+
+    companion object {
+        fun newInstance(): ProfileFragment = ProfileFragment()
     }
 }

@@ -2,6 +2,8 @@ package com.alberto.tradepop.network.dataManager
 
 import android.net.Uri
 import android.os.ParcelUuid
+import com.alberto.tradepop.network.models.Product
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -22,7 +24,7 @@ class DataManagerImp : DataManager {
     override suspend fun uploadImage(imageFile: File): String? {
         return try {
             val uri = Uri.fromFile(imageFile)
-            val uuid = UUID.randomUUID().toString().lowercase()+".jpeg"
+            val uuid = UUID.randomUUID().toString().lowercase() + ".jpeg"
             val childRef = storage.reference.child(uuid)
             childRef.putFile(uri).await()
             var downloadUri = childRef.downloadUrl.await()
@@ -56,6 +58,18 @@ class DataManagerImp : DataManager {
             true
         } catch (ex: Exception) {
             false
+        }
+    }
+
+    override suspend fun getAllProducts(userUuid: String?): List<Product>?{
+        return try {
+            val querySnapshot = db.collection(PRODUCTS_COLLECTION_KEY).whereNotEqualTo("owner", userUuid).orderBy("owner").orderBy("date", Query.Direction.DESCENDING).get().await()
+            val products = querySnapshot.documents.map {
+                Product.fromFirestoreDocument(it)
+            }
+            products
+        } catch (ex: Exception){
+            null
         }
     }
 }
