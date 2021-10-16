@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.alberto.tradepop.loginRegister.LoginRegisterViewModel
 import com.alberto.tradepop.newProduct.NewProductViewModel
+import com.alberto.tradepop.productDetails.ProductDetailsViewModel
 import com.alberto.tradepop.products.ProductsViewModel
 import com.alberto.tradepop.profile.ProfileViewModel
 import org.kodein.di.*
@@ -16,10 +17,11 @@ object ViewModelDIModule : DIBaseModule("ViewModelDIModule") {
             DIViewModelFactory(di)
         }
 
-        bind<LoginRegisterViewModel>() with singleton { LoginRegisterViewModel(instance()) }
+        bind<LoginRegisterViewModel>() with provider { LoginRegisterViewModel(instance()) }
         bind<ProfileViewModel>() with singleton { ProfileViewModel(instance(), instance()) }
-        bind<NewProductViewModel>() with singleton { NewProductViewModel(instance(), instance()) }
+        bind<NewProductViewModel>() with provider { NewProductViewModel(instance(), instance()) }
         bind<ProductsViewModel>() with singleton { ProductsViewModel(instance(), instance()) }
+        bind<ProductDetailsViewModel>() with provider { ProductDetailsViewModel(instance(), instance()) }
     }
 
     class DIViewModelFactory(private val di: DI) : ViewModelProvider.Factory {

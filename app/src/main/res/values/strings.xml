@@ -9,6 +9,7 @@
     <string name="generic_ok">Ok</string>
     <string name="generic_loading">Loading...</string>
     <string name="generic_cancel">Cancel</string>
+    <string name="generic_delete">Delete</string>
     <!-- Category -->
     <string name="category_1">Vehicle</string>
     <string name="category_2">Clothing</string>
@@ -41,9 +42,20 @@
     <string name="new_product_price_label">Price*</string>
     <string name="new_product_upload_button">Upload</string>
     <string name="new_product_empty_fields_error_message">Fields can\'t be empty</string>
-    <string name="new_product_upload_product_error_message">An error has ocurred please try again later</string>
+    <string name="new_product_upload_product_error_message">An error has occurred please try again later</string>
     <!-- ProductsFragment -->
     <string name="products_error_fetching_products">An error has occurred please try again later</string>
     <!-- ProfileFragment -->
     <string name="profile_my_products_label">My products</string>
+    <!-- ProductDetailsActivity -->
+    <string name="product_details_title_label">Title</string>
+    <string name="product_details_description_label">Description</string>
+    <string name="product_details_category_label">Category</string>
+    <string name="product_details_price_label">Price</string>
+    <string name="product_details_buy_button">Buy</string>
+    <string name="product_details_edit_button">Edit</string>
+    <string name="product_details_delete_button">Delete</string>
+    <string name="product_details_empty_fields_error_message">Fields can\'t be empty</string>
+    <string name="product_details_error_message">An error has occurred please try again later</string>
+    <string name="product_details_delete_product_message">Are you sure you want to delete this product?</string>
 </resources>

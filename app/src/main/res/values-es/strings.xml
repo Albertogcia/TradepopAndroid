@@ -9,6 +9,7 @@
     <string name="generic_ok">Ok</string>
     <string name="generic_loading">Cargando...</string>
     <string name="generic_cancel">Cancelar</string>
+    <string name="generic_delete">Borrar</string>
     <!-- Category -->
     <string name="category_1">Vehiculos</string>
     <string name="category_2">Ropa</string>
@@ -46,4 +47,15 @@
     <string name="products_error_fetching_products">An error has occurred please try again later</string>
     <!-- ProfileFragment -->
     <string name="profile_my_products_label">Mis productos</string>
+    <!-- ProductDetailsActivity -->
+    <string name="product_details_title_label">Título</string>
+    <string name="product_details_description_label">Descripción</string>
+    <string name="product_details_category_label">Categoría</string>
+    <string name="product_details_price_label">Precio</string>
+    <string name="product_details_buy_button">Comprar</string>
+    <string name="product_details_edit_button">Editar</string>
+    <string name="product_details_delete_button">Borrar</string>
+    <string name="product_details_empty_fields_error_message">Los campos no pueden estar vacios</string>
+    <string name="product_details_error_message">Se ha producido un error, por favor inténtalo de nuevo mas tarde</string>
+    <string name="product_details_delete_product_message">¿Estas seguro de que quieres borrar este producto?</string>
 </resources>

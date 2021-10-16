@@ -96,8 +96,8 @@ class NewProductFragment : Fragment(), DIAware {
                     }
                     if (state.reloadData) {
                         loadingDialog?.dismiss()
-                        clearView()
-                        viewModel.resetViewModel()
+                        //clearView()
+                        //viewModel.resetViewModel()
                         val home = activity as? HomeActivity
                         home?.let {
                             it.newProductCreated()
@@ -120,14 +120,14 @@ class NewProductFragment : Fragment(), DIAware {
         return binding.root
     }
 
-    private fun clearView(){
+    /*private fun clearView(){
         binding.titleEditText.setText("")
         binding.descriptionEditText.setText("")
         binding.priceEditText.setText("")
         binding.selectedCategoryTextView.setText(R.string.new_product_description_label)
         binding.coverImage.setImageResource(R.color.secondary_color)
         binding.cameraImage.isVisible = true
-    }
+    }*/
 
     private fun openCategorySelector() {
         val builder = AlertDialog.Builder(requireContext())

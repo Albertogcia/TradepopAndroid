@@ -1,5 +1,7 @@
 package com.alberto.tradepop.products
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -20,8 +23,10 @@ import com.alberto.tradepop.Extensions.SpacesItemDecoration
 import com.alberto.tradepop.R
 import com.alberto.tradepop.databinding.FragmentNewProductBinding
 import com.alberto.tradepop.databinding.FragmentProductsBinding
+import com.alberto.tradepop.loginRegister.LoginRegisterActivity
 import com.alberto.tradepop.network.models.Product
 import com.alberto.tradepop.newProduct.NewProductViewModel
+import com.alberto.tradepop.productDetails.ProductDetailsActivity
 import com.alberto.tradepop.profile.ProfileFragment
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -107,7 +112,15 @@ class ProductsFragment : Fragment(), DIAware {
     }
 
     private fun productSelected(product: Product) {
+        val intent = Intent (requireContext(), ProductDetailsActivity::class.java)
+        intent.putExtra("product", product)
+        resultLauncher.launch(intent)
+    }
 
+    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            viewModel.getProducts()
+        }
     }
 
     companion object {

@@ -59,12 +59,6 @@ class NewProductViewModel(
         stateFlow.value = NewProductState.empty()
     }
 
-    fun resetViewModel(){
-        stateFlow.value = NewProductState.empty()
-        coverImageFile = null
-        selectedCategoryId = null
-    }
-
     private fun uploadProduct(title: String, description: String, price: Double) {
         viewModelScope.launch {
             userDataManager.getCurrentUser()?.let { currentUser ->

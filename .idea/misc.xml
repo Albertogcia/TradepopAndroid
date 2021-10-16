@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/drawable/loading_dialog.xml" value="0.32760416666666664" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.4384057971014493" />
         <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_product_details.xml" value="0.226171875" />
         <entry key="app/src/main/res/layout/dialog_category_selector.xml" value="0.223828125" />
         <entry key="app/src/main/res/layout/dialog_edit_text.xml" value="0.26132246376811596" />
         <entry key="app/src/main/res/layout/fragment_new_product.xml" value="0.2889908256880734" />
