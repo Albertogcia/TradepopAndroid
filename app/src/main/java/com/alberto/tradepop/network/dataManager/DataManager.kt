@@ -18,4 +18,6 @@ interface DataManager {
     ): Boolean
 
     suspend fun getAllProducts(userUuid: String?): List<Product>?
+
+    suspend fun getUserProducts(userUuid: String?): List<Product>?
 }

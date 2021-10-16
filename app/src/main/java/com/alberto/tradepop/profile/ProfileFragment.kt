@@ -11,10 +11,17 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.alberto.tradepop.Extensions.DialogUtils
+import com.alberto.tradepop.Extensions.SpacesItemDecoration
+import com.alberto.tradepop.R
 import com.alberto.tradepop.databinding.ActivityLoginRegisterBinding
 import com.alberto.tradepop.databinding.FragmentProfileBinding
 import com.alberto.tradepop.loginRegister.LoginRegisterViewModel
+import com.alberto.tradepop.network.models.Product
 import com.alberto.tradepop.newProduct.NewProductFragment
+import com.alberto.tradepop.products.ProductRecyclerAdapter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.kodein.di.android.di
@@ -42,24 +49,55 @@ class ProfileFragment : Fragment(), DIAware {
         savedInstanceState: Bundle?
     ): View? {
         this.binding = FragmentProfileBinding.inflate(layoutInflater)
+        GridLayoutManager(context, 2, RecyclerView.VERTICAL, false).apply {
+            binding.recyclerView.layoutManager = this
+        }
+        val spacing = resources.getDimensionPixelSize(R.dimen.recycler_grid_spacing)
+        binding.recyclerView.addItemDecoration(SpacesItemDecoration(spacing))
+        val adapter = ProductRecyclerAdapter(::productSelected)
+        binding.recyclerView.adapter = adapter
         lifecycleScope.launchWhenStarted {
             launch {
                 viewModel.userState.collect { state ->
-                    if(state.user != null){
+                    if (state.user != null) {
                         binding.userNameTextView.text = state.user.username ?: ""
                         binding.noUserFragment.isVisible = false
                         binding.mainLayout.isVisible = true
-                    }
-                    else{
+                    } else {
                         binding.mainLayout.isVisible = false
                         binding.noUserFragment.isVisible = true
                     }
                 }
             }
+            launch {
+                viewModel.profileState.collect { state ->
+                    if (state.showMessage) {
+                        state.messageData?.let {
+                            binding.loadingBar.isVisible = false
+                            binding.swipeRefreshLayout.isRefreshing = false
+                            DialogUtils().showSimpleMessage(
+                                resources.getString(it.messageTitle),
+                                resources.getString(it.messageDescription),
+                                resources.getString(R.string.generic_ok),
+                                requireContext()
+                            )
+                            viewModel.messageDisplayed()
+                        }
+                    }
+                    binding.swipeRefreshLayout.isRefreshing = false
+                    binding.loadingBar.isVisible = false
+                    adapter.productsList = state.products
+                }
+            }
         }
-        viewModel.checkUserStatus()
+        binding.swipeRefreshLayout.setOnRefreshListener { viewModel.getProducts() }
         binding.logOutButton.setOnClickListener { viewModel.logOut() }
+        viewModel.checkUserStatus()
         return this.binding.root
+    }
+
+    private fun productSelected(product: Product) {
+
     }
 
     override fun onResume() {

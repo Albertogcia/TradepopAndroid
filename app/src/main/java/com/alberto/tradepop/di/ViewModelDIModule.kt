@@ -17,7 +17,7 @@ object ViewModelDIModule : DIBaseModule("ViewModelDIModule") {
         }
 
         bind<LoginRegisterViewModel>() with singleton { LoginRegisterViewModel(instance()) }
-        bind<ProfileViewModel>() with singleton { ProfileViewModel(instance()) }
+        bind<ProfileViewModel>() with singleton { ProfileViewModel(instance(), instance()) }
         bind<NewProductViewModel>() with singleton { NewProductViewModel(instance(), instance()) }
         bind<ProductsViewModel>() with singleton { ProductsViewModel(instance(), instance()) }
     }

@@ -2,6 +2,7 @@ package com.alberto.tradepop.network.dataManager
 
 import android.net.Uri
 import android.os.ParcelUuid
+import android.util.Log
 import com.alberto.tradepop.network.models.Product
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -61,14 +62,28 @@ class DataManagerImp : DataManager {
         }
     }
 
-    override suspend fun getAllProducts(userUuid: String?): List<Product>?{
+    override suspend fun getAllProducts(userUuid: String?): List<Product>? {
         return try {
-            val querySnapshot = db.collection(PRODUCTS_COLLECTION_KEY).whereNotEqualTo("owner", userUuid).orderBy("owner").orderBy("date", Query.Direction.DESCENDING).get().await()
+            val querySnapshot =
+                db.collection(PRODUCTS_COLLECTION_KEY).whereNotEqualTo("owner", userUuid)
+                    .orderBy("owner").orderBy("date", Query.Direction.DESCENDING).get().await()
             val products = querySnapshot.documents.map {
                 Product.fromFirestoreDocument(it)
             }
             products
-        } catch (ex: Exception){
+        } catch (ex: Exception) {
+            null
+        }
+    }
+
+    override suspend fun getUserProducts(userUuid: String?): List<Product>? {
+        return try {
+            val querySnapshot = db.collection(PRODUCTS_COLLECTION_KEY).whereEqualTo("owner", userUuid).orderBy("date", Query.Direction.DESCENDING).get().await()
+            val products = querySnapshot.documents.map {
+                Product.fromFirestoreDocument(it)
+            }
+            products
+        } catch (ex: Exception) {
             null
         }
     }

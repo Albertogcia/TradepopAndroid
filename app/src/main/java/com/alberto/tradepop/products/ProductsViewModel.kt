@@ -1,17 +1,11 @@
 package com.alberto.tradepop.products
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alberto.tradepop.R
 import com.alberto.tradepop.network.dataManager.DataManager
 import com.alberto.tradepop.network.models.Product
-import com.alberto.tradepop.network.models.User
 import com.alberto.tradepop.network.userDataManager.UserDataManager
-import com.alberto.tradepop.newProduct.NewProductViewModel
-import com.alberto.tradepop.profile.ProfileViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -42,7 +36,6 @@ class ProductsViewModel(
             previousUserUuid = ""
             getProducts()
         }
-
     }
 
     fun getProducts() {
