@@ -11,6 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.alberto.tradepop.databinding.ActivityHomeBinding
+import com.alberto.tradepop.favorites.FavoritesFragment
 import com.alberto.tradepop.newProduct.NewProductFragment
 import com.alberto.tradepop.products.ProductsFragment
 import com.alberto.tradepop.profile.ProfileFragment
@@ -18,10 +19,6 @@ import com.alberto.tradepop.profile.ProfileFragment
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-
-    /*private val productsFragment = ProductsFragment()
-    private val newProductFragment = NewProductFragment()
-    private val profileFragment = ProfileFragment()*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +40,10 @@ class HomeActivity : AppCompatActivity() {
                 R.id.navigation_profile -> {
                     val profileFragment = ProfileFragment.newInstance()
                     setFragment(profileFragment)
+                }
+                R.id.navigation_favorites -> {
+                    val favoritesFragment = FavoritesFragment.newInstance()
+                    setFragment(favoritesFragment)
                 }
             }
             true

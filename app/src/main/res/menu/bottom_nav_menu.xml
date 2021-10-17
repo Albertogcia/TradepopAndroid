@@ -7,6 +7,11 @@
         android:title="@string/tab_bar_products" />
 
     <item
+        android:id="@+id/navigation_favorites"
+        android:icon="@drawable/icon_favorite"
+        android:title="@string/tab_bar_favorites" />
+
+    <item
         android:id="@+id/navigation_add_product"
         android:icon="@drawable/icon_add"
         android:title="@string/tab_bar_add" />

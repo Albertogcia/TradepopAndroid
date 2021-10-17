@@ -1,9 +1,11 @@
 package com.alberto.tradepop.network.models
 
 import android.util.Log
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firestore.v1.Document
 import java.io.Serializable
+import java.util.*
 
 class Product(
     val uuid: String ,
@@ -13,7 +15,8 @@ class Product(
     val ownerName: String?,
     val price: Double?,
     val categoryId: Int?,
-    val coverImageUrl: String?
+    val coverImageUrl: String?,
+    val date: Date?
 ): Serializable {
     companion object {
         fun fromFirestoreDocument(document: DocumentSnapshot): Product{
@@ -26,7 +29,8 @@ class Product(
                 val price = this?.get("price") as? Double
                 val categoryId = (this?.get("categoryId") as? Number)?.toInt()
                 val coverImageUrl = this?.get("coverImageUrl") as? String
-                return Product(uuid, title, description, owner, ownerName, price, categoryId, coverImageUrl)
+                val date = (this?.get("date") as? Timestamp)?.toDate()
+                return Product(uuid, title, description, owner, ownerName, price, categoryId, coverImageUrl, date)
             }
         }
     }

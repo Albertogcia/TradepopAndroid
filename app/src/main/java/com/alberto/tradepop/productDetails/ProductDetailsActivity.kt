@@ -2,14 +2,15 @@ package com.alberto.tradepop.productDetails
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.ColorFilter
+import android.graphics.PorterDuff
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.EditText
+import android.view.*
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
@@ -19,11 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.alberto.tradepop.Extensions.*
-import com.alberto.tradepop.HomeActivity
-import com.alberto.tradepop.R
-import com.alberto.tradepop.databinding.ActivityLoginRegisterBinding
 import com.alberto.tradepop.databinding.ActivityProductDetailsBinding
-import com.alberto.tradepop.loginRegister.LoginRegisterViewModel
 import com.alberto.tradepop.network.models.Product
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.resolution
@@ -38,6 +35,9 @@ import org.kodein.di.android.di
 import org.kodein.di.direct
 import org.kodein.di.instance
 
+import com.alberto.tradepop.R
+
+
 class ProductDetailsActivity : AppCompatActivity(), DIAware {
 
     override val di: DI by di()
@@ -50,6 +50,7 @@ class ProductDetailsActivity : AppCompatActivity(), DIAware {
 
     private lateinit var binding: ActivityProductDetailsBinding
     private var loadingDialog: AlertDialog? = null
+    private lateinit var favoriteMenuItem: MenuItem
     private lateinit var product: Product
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -98,6 +99,9 @@ class ProductDetailsActivity : AppCompatActivity(), DIAware {
                             viewModel.messageDisplayed()
                         }
                     }
+                    if (state.errorFavorite){
+                        Toast.makeText(this@ProductDetailsActivity, R.string.product_details_error_message, Toast.LENGTH_LONG).show()
+                    }
                     if (state.finish) {
                         loadingDialog?.dismiss()
                         setResult(RESULT_OK)
@@ -112,24 +116,64 @@ class ProductDetailsActivity : AppCompatActivity(), DIAware {
         binding.titleEditText.setText(product.title)
         binding.descriptionEditText.setText(product.description)
         product.categoryId?.let {
-            when(it){
-                1 -> { binding.selectedCategoryTextView.text = resources.getString(R.string.category_1) }
-                2 -> { binding.selectedCategoryTextView.text = resources.getString(R.string.category_2) }
-                3 -> { binding.selectedCategoryTextView.text = resources.getString(R.string.category_3) }
-                4 -> { binding.selectedCategoryTextView.text = resources.getString(R.string.category_4) }
-                5 -> { binding.selectedCategoryTextView.text = resources.getString(R.string.category_5) }
+            when (it) {
+                1 -> {
+                    binding.selectedCategoryTextView.text = resources.getString(R.string.category_1)
+                }
+                2 -> {
+                    binding.selectedCategoryTextView.text = resources.getString(R.string.category_2)
+                }
+                3 -> {
+                    binding.selectedCategoryTextView.text = resources.getString(R.string.category_3)
+                }
+                4 -> {
+                    binding.selectedCategoryTextView.text = resources.getString(R.string.category_4)
+                }
+                5 -> {
+                    binding.selectedCategoryTextView.text = resources.getString(R.string.category_5)
+                }
             }
         }
         binding.priceEditText.setText(product.price.toString())
-        binding.coverImage.load(product.coverImageUrl){
+        binding.coverImage.load(product.coverImageUrl) {
             error(R.drawable.no_image_placeholder)
         }
         viewModel.checkUserState()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.product_details_action_bar_menu, menu)
+        menu?.findItem(R.id.action_favorite)?.let {
+            favoriteMenuItem = it
+            if (viewModel.isProductFavorite(product.uuid)) {
+                it.setIcon(R.drawable.icon_favorite_fill)
+            } else {
+                it.setIcon(R.drawable.icon_favorite)
+            }
+        }
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         finish()
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_favorite -> {
+            if (!viewModel.isProductFavorite(product.uuid)) {
+                item.setIcon(R.drawable.icon_favorite_fill)
+            } else {
+                item.setIcon(R.drawable.icon_favorite)
+            }
+            viewModel.changeFavorite()
+            true
+        }
+
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
     }
 
     private fun buyProduct() {
@@ -140,7 +184,11 @@ class ProductDetailsActivity : AppCompatActivity(), DIAware {
     private fun editProduct() {
         this.hideKeyboard()
         loadingDialog = this.showLoadingDialog(this)
-        viewModel.checkFields(binding.titleEditText.text.toString(),binding.descriptionEditText.text.toString(),binding.priceEditText.text.toString())
+        viewModel.checkFields(
+            binding.titleEditText.text.toString(),
+            binding.descriptionEditText.text.toString(),
+            binding.priceEditText.text.toString()
+        )
     }
 
     private fun showDeleteAlert() {
@@ -208,15 +256,16 @@ class ProductDetailsActivity : AppCompatActivity(), DIAware {
         resultLauncher.launch(intent)
     }
 
-    private val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        if (it.resultCode == Activity.RESULT_OK) {
-            it.data?.data?.let { uri ->
-                handleImage(uri)
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                it.data?.data?.let { uri ->
+                    handleImage(uri)
+                }
             }
         }
-    }
 
-    private fun handleImage(uri: Uri){
+    private fun handleImage(uri: Uri) {
         val file = FileUtils().getFile(this, uri)
         CoroutineScope(Dispatchers.IO).launch {
             val compressedImageFile = Compressor.compress(this@ProductDetailsActivity, file) {

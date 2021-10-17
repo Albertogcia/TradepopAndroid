@@ -2,6 +2,7 @@ package com.alberto.tradepop.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.alberto.tradepop.favorites.FavoritesViewModel
 import com.alberto.tradepop.loginRegister.LoginRegisterViewModel
 import com.alberto.tradepop.newProduct.NewProductViewModel
 import com.alberto.tradepop.productDetails.ProductDetailsViewModel
@@ -22,6 +23,7 @@ object ViewModelDIModule : DIBaseModule("ViewModelDIModule") {
         bind<NewProductViewModel>() with provider { NewProductViewModel(instance(), instance()) }
         bind<ProductsViewModel>() with singleton { ProductsViewModel(instance(), instance()) }
         bind<ProductDetailsViewModel>() with provider { ProductDetailsViewModel(instance(), instance()) }
+        bind<FavoritesViewModel>() with singleton { FavoritesViewModel(instance(), instance()) }
     }
 
     class DIViewModelFactory(private val di: DI) : ViewModelProvider.Factory {

@@ -35,7 +35,17 @@ interface DataManager {
         productName: String
     ): Boolean
 
+    suspend fun addToFavorites(productUuid: String, userUuid: String): Boolean
+
+    suspend fun removeFromFavorites(productUuid: String, userUuid: String): Boolean
+
+    suspend fun getProductsFromFavorites(userUuid: String): List<Product>?
+
+    suspend fun getUserFavoritesList(userUuid: String): List<String>?
+
     suspend fun getAllProducts(userUuid: String?): List<Product>?
 
     suspend fun getUserProducts(userUuid: String?): List<Product>?
+
+    fun getUserFavorites(): MutableList<String>
 }

@@ -5,6 +5,7 @@
     <string name="tab_bar_products">Products</string>
     <string name="tab_bar_add">Add</string>
     <string name="tab_bar_profile">Profile</string>
+    <string name="tab_bar_favorites">Favorites</string>
     <string name="generic_error">Error</string>
     <string name="generic_ok">Ok</string>
     <string name="generic_loading">Loading...</string>

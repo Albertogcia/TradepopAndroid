@@ -8,12 +8,11 @@ import com.alberto.tradepop.network.dataManager.DataManager
 import com.alberto.tradepop.network.models.Product
 import com.alberto.tradepop.network.models.User
 import com.alberto.tradepop.network.userDataManager.UserDataManager
-import com.alberto.tradepop.newProduct.NewProductViewModel
-import com.alberto.tradepop.profile.ProfileViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.*
 
 class ProductDetailsViewModel(
     private val userDataManager: UserDataManager,
@@ -40,6 +39,28 @@ class ProductDetailsViewModel(
     fun checkUserState() {
         this.user = userDataManager.getCurrentUser()
         userStateFlow.value = ProductDetailsUserState(user = this.user)
+    }
+
+    fun isProductFavorite(uuid: String): Boolean{
+        return dataManager.getUserFavorites().contains(uuid)
+    }
+
+    fun changeFavorite(){
+        user?.let {
+            if(!isProductFavorite(product.uuid)){
+                viewModelScope.launch {
+                    val success = dataManager.addToFavorites(product.uuid, it.uuid)
+                    if(!success) showErrorFav(false) else addToLocalFavorites()
+                }
+            }
+            else{
+                viewModelScope.launch {
+                    val success = dataManager.removeFromFavorites(product.uuid, it.uuid)
+                    if(!success) showErrorFav(true) else removeFromLocalFavorites()
+                }
+            }
+        }
+
     }
 
     fun buyProduct() {
@@ -80,7 +101,9 @@ class ProductDetailsViewModel(
                     R.string.generic_error,
                     R.string.product_details_empty_fields_error_message
                 ),
-                finish = false
+                finish = false,
+                errorFavorite = false,
+                isFavorite = false
             )
             return
         }
@@ -116,7 +139,9 @@ class ProductDetailsViewModel(
         productDetailsStateFlow.value = ProductDetailsState(
             showMessage = false,
             messageData = null,
-            finish = true
+            finish = true,
+            errorFavorite = false,
+            isFavorite = false
         )
     }
 
@@ -127,12 +152,32 @@ class ProductDetailsViewModel(
                 R.string.generic_error,
                 R.string.product_details_error_message
             ),
-            finish = false
+            finish = false,
+            errorFavorite = false,
+            isFavorite = false
         )
     }
 
     fun messageDisplayed() {
         productDetailsStateFlow.value = ProductDetailsState.empty()
+    }
+
+    private fun showErrorFav(favorite: Boolean) {
+        productDetailsStateFlow.value = ProductDetailsState(
+            showMessage = false,
+            messageData = null,
+            finish = false,
+            errorFavorite = true,
+            isFavorite = favorite
+        )
+    }
+
+    private fun addToLocalFavorites(){
+        dataManager.getUserFavorites().add(product.uuid)
+    }
+
+    private fun removeFromLocalFavorites(){
+        dataManager.getUserFavorites().remove(product.uuid)
     }
 
     fun setProduct(product: Product) {
@@ -143,14 +188,18 @@ class ProductDetailsViewModel(
     data class ProductDetailsState(
         val showMessage: Boolean,
         val messageData: MessageData?,
-        val finish: Boolean
+        val finish: Boolean,
+        val errorFavorite: Boolean,
+        val isFavorite: Boolean,
     ) {
         data class MessageData(val messageTitle: Int, val messageDescription: Int)
         companion object {
             fun empty() = ProductDetailsState(
                 showMessage = false,
                 messageData = null,
-                finish = false
+                finish = false,
+                errorFavorite = false,
+                isFavorite = false,
             )
         }
     }

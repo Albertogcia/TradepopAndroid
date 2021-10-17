@@ -4,6 +4,8 @@ import android.net.Uri
 import android.os.ParcelUuid
 import android.util.Log
 import com.alberto.tradepop.network.models.Product
+import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
@@ -18,11 +20,18 @@ import java.util.*
 
 private const val PRODUCTS_COLLECTION_KEY = "products"
 private const val TRANSACTIONS_COLLECTION_KEY = "transactions"
+private const val USERS_COLLECTION_KEY = "users"
 
 class DataManagerImp : DataManager {
 
     private val db = Firebase.firestore
     private val storage = Firebase.storage
+
+    private var userFavorites: MutableList<String> = mutableListOf()
+
+    override fun getUserFavorites(): MutableList<String>{
+        return this.userFavorites
+    }
 
     override suspend fun uploadImage(imageFile: File): String? {
         return try {
@@ -121,7 +130,7 @@ class DataManagerImp : DataManager {
         }
     }
 
-    override suspend fun getAllProducts(userUuid: String?): List<Product>? {
+    override suspend fun getAllProducts(userUuid: String?): List<Product>?{
         return try {
             val querySnapshot =
                 db.collection(PRODUCTS_COLLECTION_KEY).whereNotEqualTo("owner", userUuid)
@@ -129,8 +138,49 @@ class DataManagerImp : DataManager {
             val products = querySnapshot.documents.map {
                 Product.fromFirestoreDocument(it)
             }
+            userUuid?.let {
+                getUserFavoritesList(userUuid)?.let {
+                    this.userFavorites = it
+                }
+            }
             products
         } catch (ex: Exception) {
+            null
+        }
+    }
+
+    override suspend fun getProductsFromFavorites(userUuid: String): List<Product>? {
+        return try {
+            val userFavorites = getUserFavoritesList(userUuid)
+            userFavorites?.let {
+                if(userFavorites.isNotEmpty()){
+                    val querySnapshot =
+                        db.collection(PRODUCTS_COLLECTION_KEY).whereIn(FieldPath.documentId(), userFavorites).get().await()
+                    val products = querySnapshot.documents.map {
+                        Product.fromFirestoreDocument(it)
+                    }
+                    products.sortedByDescending { it.date }
+                }
+                else{
+                    listOf()
+                }
+
+            } ?: run {
+                this.userFavorites = mutableListOf()
+                null
+            }
+        } catch (ex: Exception) {
+            Log.d("kkk", ex.localizedMessage)
+            null
+        }
+    }
+
+    override suspend fun getUserFavoritesList(userUuid: String): MutableList<String>? {
+        return try {
+            val snapshot = db.collection(USERS_COLLECTION_KEY).document(userUuid).get().await()
+            snapshot.data?.get("favorites") as? MutableList<String>
+        } catch (ex: Exception) {
+            this.userFavorites = mutableListOf()
             null
         }
     }
@@ -143,9 +193,40 @@ class DataManagerImp : DataManager {
             val products = querySnapshot.documents.map {
                 Product.fromFirestoreDocument(it)
             }
+            userUuid?.let {
+                getUserFavoritesList(userUuid)?.let {
+                    this.userFavorites = it
+                }
+            }
             products
         } catch (ex: Exception) {
             null
+        }
+    }
+
+    override suspend fun addToFavorites(productUuid: String, userUuid: String): Boolean {
+        return try {
+            val data = hashMapOf(
+                "favorites" to FieldValue.arrayUnion(productUuid)
+            )
+            db.collection(USERS_COLLECTION_KEY).document(userUuid).set(data, SetOptions.merge())
+                .await()
+            true
+        } catch (ex: Exception) {
+            false
+        }
+    }
+
+    override suspend fun removeFromFavorites(productUuid: String, userUuid: String): Boolean {
+        return try {
+            val data = hashMapOf(
+                "favorites" to FieldValue.arrayRemove(productUuid)
+            )
+            db.collection(USERS_COLLECTION_KEY).document(userUuid).set(data, SetOptions.merge())
+                .await()
+            true
+        } catch (ex: Exception) {
+            false
         }
     }
 }
