@@ -4,10 +4,8 @@ import android.net.Uri
 import android.os.ParcelUuid
 import android.util.Log
 import com.alberto.tradepop.network.models.Product
-import com.google.firebase.firestore.FieldPath
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.SetOptions
+import com.alberto.tradepop.network.models.Transaction
+import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -29,7 +27,7 @@ class DataManagerImp : DataManager {
 
     private var userFavorites: MutableList<String> = mutableListOf()
 
-    override fun getUserFavorites(): MutableList<String>{
+    override fun getUserFavorites(): MutableList<String> {
         return this.userFavorites
     }
 
@@ -130,7 +128,7 @@ class DataManagerImp : DataManager {
         }
     }
 
-    override suspend fun getAllProducts(userUuid: String?): List<Product>?{
+    override suspend fun getAllProducts(userUuid: String?): List<Product>? {
         return try {
             val querySnapshot =
                 db.collection(PRODUCTS_COLLECTION_KEY).whereNotEqualTo("owner", userUuid)
@@ -153,15 +151,15 @@ class DataManagerImp : DataManager {
         return try {
             val userFavorites = getUserFavoritesList(userUuid)
             userFavorites?.let {
-                if(userFavorites.isNotEmpty()){
+                if (userFavorites.isNotEmpty()) {
                     val querySnapshot =
-                        db.collection(PRODUCTS_COLLECTION_KEY).whereIn(FieldPath.documentId(), userFavorites).get().await()
+                        db.collection(PRODUCTS_COLLECTION_KEY)
+                            .whereIn(FieldPath.documentId(), userFavorites).get().await()
                     val products = querySnapshot.documents.map {
                         Product.fromFirestoreDocument(it)
                     }
                     products.sortedByDescending { it.date }
-                }
-                else{
+                } else {
                     listOf()
                 }
 
@@ -227,6 +225,23 @@ class DataManagerImp : DataManager {
             true
         } catch (ex: Exception) {
             false
+        }
+    }
+
+    override suspend fun getUserTransactions(userUuid: String): List<Transaction>? {
+        return try {
+            val querySnapshotPurchases = db.collection(TRANSACTIONS_COLLECTION_KEY).whereEqualTo("buyerUuid", userUuid).get().await()
+            val querySnapshotSales = db.collection(TRANSACTIONS_COLLECTION_KEY).whereEqualTo("sellerUuid", userUuid).get().await()
+            val transactions: MutableList<Transaction> = mutableListOf()
+            transactions.addAll(querySnapshotPurchases.documents.map {
+                Transaction.fromFirestoreDocument(it, userUuid)
+            })
+            transactions.addAll(querySnapshotSales.documents.map {
+                Transaction.fromFirestoreDocument(it, userUuid)
+            })
+            transactions.sortedByDescending { it.date }
+        } catch (ex: Exception) {
+            null
         }
     }
 }

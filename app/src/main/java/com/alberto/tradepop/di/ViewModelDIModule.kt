@@ -8,6 +8,7 @@ import com.alberto.tradepop.newProduct.NewProductViewModel
 import com.alberto.tradepop.productDetails.ProductDetailsViewModel
 import com.alberto.tradepop.products.ProductsViewModel
 import com.alberto.tradepop.profile.ProfileViewModel
+import com.alberto.tradepop.transactions.TransactionsViewModel
 import org.kodein.di.*
 import org.kodein.type.erased
 
@@ -24,6 +25,7 @@ object ViewModelDIModule : DIBaseModule("ViewModelDIModule") {
         bind<ProductsViewModel>() with singleton { ProductsViewModel(instance(), instance()) }
         bind<ProductDetailsViewModel>() with provider { ProductDetailsViewModel(instance(), instance()) }
         bind<FavoritesViewModel>() with singleton { FavoritesViewModel(instance(), instance()) }
+        bind<TransactionsViewModel>() with singleton { TransactionsViewModel(instance(), instance()) }
     }
 
     class DIViewModelFactory(private val di: DI) : ViewModelProvider.Factory {

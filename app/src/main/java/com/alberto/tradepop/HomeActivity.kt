@@ -15,6 +15,7 @@ import com.alberto.tradepop.favorites.FavoritesFragment
 import com.alberto.tradepop.newProduct.NewProductFragment
 import com.alberto.tradepop.products.ProductsFragment
 import com.alberto.tradepop.profile.ProfileFragment
+import com.alberto.tradepop.transactions.TransactionsFragment
 
 class HomeActivity : AppCompatActivity() {
 
@@ -28,7 +29,7 @@ class HomeActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = binding.navView
         binding.navView.setOnItemSelectedListener { menuItem ->
-            when(menuItem.itemId){
+            when (menuItem.itemId) {
                 R.id.navigation_products -> {
                     val productsFragment = ProductsFragment.newInstance()
                     setFragment(productsFragment)
@@ -45,6 +46,10 @@ class HomeActivity : AppCompatActivity() {
                     val favoritesFragment = FavoritesFragment.newInstance()
                     setFragment(favoritesFragment)
                 }
+                R.id.navigation_transactions -> {
+                    val transactionsFragment = TransactionsFragment.newInstance()
+                    setFragment(transactionsFragment)
+                }
             }
             true
         }
@@ -52,11 +57,11 @@ class HomeActivity : AppCompatActivity() {
         navView.selectedItemId = R.id.navigation_products
     }
 
-    fun newProductCreated(){
+    fun newProductCreated() {
         binding.navView.selectedItemId = R.id.navigation_products
     }
 
-    private fun setFragment(fragment: Fragment){
+    private fun setFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.nav_host_fragment_activity_home, fragment)

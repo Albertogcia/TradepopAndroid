@@ -332,7 +332,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="16dp"
-                android:backgroundTint="@android:color/holo_red_light"
+                android:backgroundTint="@color/red"
                 android:fontFamily="@font/source_sans_pro"
                 android:text="@string/product_details_delete_button"
                 android:textColor="@color/secondary_color"

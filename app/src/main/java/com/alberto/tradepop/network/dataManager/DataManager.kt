@@ -1,6 +1,7 @@
 package com.alberto.tradepop.network.dataManager
 
 import com.alberto.tradepop.network.models.Product
+import com.alberto.tradepop.network.models.Transaction
 import java.io.File
 
 interface DataManager {
@@ -48,4 +49,6 @@ interface DataManager {
     suspend fun getUserProducts(userUuid: String?): List<Product>?
 
     fun getUserFavorites(): MutableList<String>
+
+    suspend fun getUserTransactions(userUuid: String): List<Transaction>?
 }
