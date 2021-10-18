@@ -7,8 +7,10 @@
         <entry key="app/src/main/res/drawable/cursor.xml" value="0.3182291666666667" />
         <entry key="app/src/main/res/drawable/icon_add.xml" value="0.3175925925925926" />
         <entry key="app/src/main/res/drawable/icon_home.xml" value="0.38680555555555557" />
+        <entry key="app/src/main/res/drawable/icon_open_eye.xml" value="0.23046875" />
         <entry key="app/src/main/res/drawable/icon_transaction.xml" value="0.23671875" />
         <entry key="app/src/main/res/drawable/loading_dialog.xml" value="0.32760416666666664" />
+        <entry key="app/src/main/res/drawable/splash.xml" value="0.23046875" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.4384057971014493" />
         <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_product_details.xml" value="0.226171875" />
@@ -23,6 +25,7 @@
         <entry key="app/src/main/res/layout/item_product.xml" value="0.5" />
         <entry key="app/src/main/res/layout/item_transaction.xml" value="0.25" />
         <entry key="app/src/main/res/layout/loading_dialog.xml" value="0.26132246376811596" />
+        <entry key="app/src/main/res/layout/splash.xml" value="0.19330601092896174" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.27037037037037037" />
         <entry key="app/src/main/res/menu/product_details_action_bar_menu.xml" value="0.22734375" />
       </map>
