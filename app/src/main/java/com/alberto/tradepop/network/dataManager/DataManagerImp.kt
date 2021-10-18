@@ -151,6 +151,7 @@ class DataManagerImp : DataManager {
         return try {
             val userFavorites = getUserFavoritesList(userUuid)
             userFavorites?.let {
+                this.userFavorites = it
                 if (userFavorites.isNotEmpty()) {
                     val querySnapshot =
                         db.collection(PRODUCTS_COLLECTION_KEY)
