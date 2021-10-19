@@ -38,7 +38,7 @@ data class TransactionViewHolder(val binding: ItemTransactionBinding) : Recycler
     fun bind(transaction: Transaction){
         with(binding){
             productTitle.text = transaction.productName
-            transactionPrice.text = "${transaction.price.toString()}€"
+            transactionPrice.text = "${transaction.price.toString().replace(".", ",")}€"
             if(transaction.isPurchase){
                 binding.indicatorView.setBackgroundColor(Color.RED)
             }

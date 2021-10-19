@@ -33,8 +33,8 @@ data class ProductViewHolder(val binding: ItemProductBinding) : RecyclerView.Vie
     fun bind(product: Product, onClickListener: (Product) -> Unit){
         with(binding){
             binding.mainLayout.setOnClickListener { onClickListener(product) }
-            priceTextView.text = "${product.price.toString()}€"
-            descriptionTextView.text = product.description
+            priceTextView.text = "${product.price.toString().replace(".", ",")}€"
+            descriptionTextView.text = product.title
             coverImage.load(product.coverImageUrl){
                 error(R.drawable.no_image_placeholder)
             }
