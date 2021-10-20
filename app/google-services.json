@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "278655210829",
+    "project_id": "tradepop-db297",
+    "storage_bucket": "tradepop-db297.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:278655210829:android:30b22c5f2a18df6e1dd304",
+        "android_client_info": {
+          "package_name": "com.alberto.tradepop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "278655210829-0usippjuetsfe52r6b3eo68obr0ies65.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAno9DJHDhleAx7jEZYhftnFKP2peTPd3s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "278655210829-0usippjuetsfe52r6b3eo68obr0ies65.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "278655210829-v990hg844al3ppgh17keblqljo2gt05e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.alberto.Tradepop"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
